@@ -7,7 +7,7 @@
 *   Java 17 
 *   Spring Boot 
 *   Maven 
-*   PostgreSQL 
+
 
 ## Задача
 
