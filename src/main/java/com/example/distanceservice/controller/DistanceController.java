@@ -1,28 +1,31 @@
 package com.example.distanceservice.controller;
 
+import com.example.distanceservice.dto.DistanceResponse;
+import com.example.distanceservice.exception.CityNotFoundException;
 import com.example.distanceservice.service.DistanceService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/distance")
 public class DistanceController {
-    @Autowired
     private final DistanceService distanceService;
 
-    DistanceController(DistanceService distanceService) {
+    public DistanceController(DistanceService distanceService) {
         this.distanceService = distanceService;
     }
 
-    @GetMapping("/distance")
-    public Map<String, Object> calculateDistance(
-            @RequestParam String city1,
-            @RequestParam String city2){
-        return distanceService.calculateDistance(city1, city2);
+    @GetMapping
+    public ResponseEntity<?> getDistance(
+            @RequestParam String from,
+            @RequestParam String to
+    ) {
+        try {
+            DistanceResponse response = distanceService.calculateDistance(from, to);
+            return ResponseEntity.ok(response);
+        } catch (CityNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
     }
-
 }

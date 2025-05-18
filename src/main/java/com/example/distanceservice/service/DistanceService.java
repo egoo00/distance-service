@@ -1,31 +1,37 @@
 package com.example.distanceservice.service;
 
+import com.example.distanceservice.dto.DistanceResponse;
+import com.example.distanceservice.exception.CityNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class DistanceService {
-    private final Map<String, double[]> cityCoordinates = Map.of(
-        "Minsk", new double[]{53.9, 27.5667},
-        "Moscow", new double[]{55.7558, 37.6178},
-        "Warsaw", new double[]{52.2297, 21.0122}
-    );
-    public Map<String, Object> calculateDistance(String city1, String city2) {
+    private final GeocodingService geocodingService;
 
-        Map<String, Object> response = new HashMap<>();
-        if (!cityCoordinates.containsKey(city1) || !cityCoordinates.containsKey(city2)) {
-            response.put("error", "City not found");
-            return response;
-        }
+    public DistanceService(GeocodingService geocodingService) {
+        this.geocodingService = geocodingService;
+    }
 
-        double distance = 666; // Пример хардкода
-        response.put("city1", city1);
-        response.put("city2", city2);
-        response.put("distance", distance);
-        response.put("unit", "km");
-        return response;
+    public DistanceResponse calculateDistance(String city1, String city2) {
+        double[] coord1 = geocodingService.getCoordinates(city1);
+        double[] coord2 = geocodingService.getCoordinates(city2);
+
+        double distance = calculateHaversine(
+                coord1[0], coord1[1],
+                coord2[0], coord2[1]
+        );
+
+        return new DistanceResponse(city1, city2, distance, "km");
+    }
+
+    private double calculateHaversine(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371; // Earth radius in km
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
     }
 }
