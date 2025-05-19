@@ -13,7 +13,7 @@ public class DistanceResponse {
         this.unit = unit;
     }
 
-    // Геттеры
+
     public String getFrom() {
         return from;
     }

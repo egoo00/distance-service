@@ -33,7 +33,7 @@ public class GeocodingService {
         GeocodingResponse.Result firstResult = response.getBody().getResults().get(0);
         return new double[]{
                 firstResult.getGeometry().getLat(),
-                firstResult.getGeometry().getLng() // Используем getLng() вместо getLon()
+                firstResult.getGeometry().getLng()
         };
     }
 }

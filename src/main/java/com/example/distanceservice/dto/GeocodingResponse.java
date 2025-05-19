@@ -12,18 +12,18 @@ public class GeocodingResponse {
 
         public static class Geometry {
             private double lat;
-            @JsonProperty("lng") // Важно: в API используется "lng", а не "lon"
+            @JsonProperty("lng")
             private double longitude;
 
-            // Геттеры
+
             public double getLat() { return lat; }
             public double getLng() { return longitude; }
         }
 
-        // Геттер
+
         public Geometry getGeometry() { return geometry; }
     }
 
-    // Геттер
+
     public List<Result> getResults() { return results; }
 }
