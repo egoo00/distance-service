@@ -15,7 +15,7 @@
     </parent>
 
     <dependencies>
-        <!-- Основная зависимость Spring Boot для веб-приложений -->
+        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -31,7 +31,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Для тестирования -->
+        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
