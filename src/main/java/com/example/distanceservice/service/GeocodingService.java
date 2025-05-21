@@ -1,6 +1,7 @@
 package com.example.distanceservice.service;
 
 import com.example.distanceservice.dto.GeocodingResponse;
+import com.example.distanceservice.dto.Geometry;
 import com.example.distanceservice.exception.CityNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -26,14 +27,13 @@ public class GeocodingService {
         String url = String.format("%s?q=%s&key=%s", apiUrl, cityName, apiKey);
         ResponseEntity<GeocodingResponse> response = restTemplate.getForEntity(url, GeocodingResponse.class);
 
-        if (response.getBody() == null || response.getBody().getResults().isEmpty()) {
+        if (response.getBody() == null ||
+                response.getBody().getResults() == null ||
+                response.getBody().getResults().isEmpty()) {
             throw new CityNotFoundException("City not found: " + cityName);
         }
 
-        GeocodingResponse.Result firstResult = response.getBody().getResults().get(0);
-        return new double[]{
-                firstResult.getGeometry().getLat(),
-                firstResult.getGeometry().getLng()
-        };
+        Geometry geometry = response.getBody().getResults().get(0).getGeometry();
+        return new double[]{geometry.getLat(), geometry.getLng()};
     }
 }
