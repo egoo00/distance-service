@@ -1,5 +1,6 @@
 package com.example.distanceservice.service;
 
+import com.example.distanceservice.entity.City;
 import com.example.distanceservice.dto.GeocodingResponse;
 import com.example.distanceservice.dto.Geometry;
 import com.example.distanceservice.exception.CityNotFoundException;
@@ -23,7 +24,7 @@ public class GeocodingService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public double[] getCoordinates(String cityName) {
+    public City getCity(String cityName) {
         String url = String.format("%s?q=%s&key=%s", apiUrl, cityName, apiKey);
         ResponseEntity<GeocodingResponse> response = restTemplate.getForEntity(url, GeocodingResponse.class);
 
@@ -34,6 +35,6 @@ public class GeocodingService {
         }
 
         Geometry geometry = response.getBody().getResults().get(0).getGeometry();
-        return new double[]{geometry.getLat(), geometry.getLng()};
+        return new City(cityName, geometry.getLat(), geometry.getLng());
     }
 }
