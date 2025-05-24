@@ -1,7 +1,7 @@
 package com.example.distanceservice.entity;
 
 public class Distance {
-    private String id; // Например, комбинация fromCity и toCity
+    private String id; 
     private String fromCity;
     private String toCity;
     private double distance;
