@@ -5,7 +5,6 @@ public class City {
     private double latitude;
     private double longitude;
 
-    // Конструкторы
     public City() {}
     public City(String name, double latitude, double longitude) {
         this.name = name;
@@ -13,7 +12,7 @@ public class City {
         this.longitude = longitude;
     }
 
-    // Геттеры и сеттеры
+ 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public double getLatitude() { return latitude; }
