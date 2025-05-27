@@ -1,9 +1,6 @@
 package com.example.distanceservice.dto;
 
-
-
 public class Result {
-    @JsonProperty("geometry")
     private Geometry geometry;
 
     public Geometry getGeometry() {
