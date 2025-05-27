@@ -1,14 +1,10 @@
 package com.example.distanceservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Geometry {
     private double lat;
-
-    @JsonProperty("lng")
     private double lng;
 
-   
+
     public double getLat() {
         return lat;
     }
